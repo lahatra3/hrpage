@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <style>
+        *, *::after, *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            letter-spacing: .9px;
+            font-size: .9rem;
+            font-family: sans-serif;
+            background-image: linear-gradient(to right bottom, #0c1519, #0f1d23, #10252e, #102d3a, #103546);
+        }
+
+        .container {
+            position: relative;
+            margin: 3rem;
+            height: calc(100% - 6rem);
+            display: flex;
+            align-items: center;
+        }
+
+        .container .container_first_part {
+            width: 59%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container_first_text {
+            font-weight: bold;
+            font-size: 5.3rem;
+            margin: 1rem auto;
+            filter: drop-shadow(-3px 1px 7px #35333341);
+            background-image: linear-gradient(to right bottom, #34bdea, #1ab4eb, #00aaeb, #00a0eb, #0496e9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container_second_text {
+            font-size: 1.4rem;
+            color: #ffffffad;
+            margin: 1rem auto;
+        }
+
+        .container .container_second_part {
+            width: 41%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container_form {
+            position: relative;
+            width: 100%;
+            border-radius: .9rem;
+            padding: 2.3rem;
+            background-color: #ffffff38;
+            -webkit-backdrop-filter: blur(31px);
+            backdrop-filter: blur(3px);
+            box-shadow: -3px 1px 6px 7px #7d7d7e11;
+        }
+
+        .container_form::before {
+            position: absolute;
+            content: '';
+            top: 0;
+            left: 0;
+            width: 25%;
+            height: 75%;
+            background-color: #ffffff63;
+            border-radius: .9rem 0 100% 0;
+            z-index: -3;
+        }
+
+        .container_form::after {
+            position: absolute;
+            content: '';
+            bottom: 0;
+            right: 0;
+            width: 19%;
+            height: 19%;
+            background-color: #ffffff63;
+            border-radius: 100% 0 .9rem 0;
+            z-index: -3;
+        }
+
+        .container_form_title {
+            text-align: center;
+            margin: 0 0 1.9rem 0;
+        }
+
+        .container_form_title span {
+            color: #0396e2;
+            font-weight: bold;
+            font-size: 1.2rem;
+            filter: drop-shadow(-3px 1px 7px #1b1a1a41);
+        }
+
+        .separator {
+            border-bottom: 1px dashed #0398e2;
+        }
+
+        .container_form_input_username, .container_form_input_password {
+            margin: 1.5rem 1rem 1.9rem 1rem;
+            border-bottom: 1px dashed #ffffff;
+            border-radius: .9rem;
+            position: relative;
+        }
+
+        label {
+            margin-left: .4rem;
+            color: #3abdff;
+            font-weight: bold;
+            filter: drop-shadow(-3px 1px 7px #1b1a1a41);
+        }
+
+        input {
+            width: 100%;
+            height: 2.5rem;
+            border-radius: .7rem;
+            outline: none;
+            padding-left: .7rem;
+            padding-right: .7rem;
+            background-color: #ffffff00;
+            border: none;
+            color: #ffffff;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        input::placeholder {
+            color: #ffffffc0;
+        }
+
+        .icon_status_password {
+            border: none;
+            background-color: transparent;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transform: translate(-100%, -31%);
+            cursor: pointer;
+        }
+
+        .icon_status_password svg {
+            fill: #ffffff;
+        }
+
+        #svg1 {
+            display: inline;
+        }
+
+        #svg2 {
+            display: none;
+        }
+
+        .container_form_btn {
+            text-align: center;
+            margin-top: 2.9rem;
+        }
+
+        .submit_btn {
+            border: none;
+            border-radius: 1.1rem;
+            padding: .5rem 1.7rem;
+            font-weight: bold;
+            font-size: .9rem;
+            cursor: pointer;
+            background-image: linear-gradient(to right bottom, #0396e2, #0081c1, #006da1, #045982, #094665);
+            color: #ffffffd0;
+            transform: scale(1);
+            transition: all .5s ease-in-out;
+        }
+
+        .submit_btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media screen and (max-width: 767px) {
+            .container {
+                margin: 1rem;
+                flex-direction: column;
+                width: calc(100% - 2rem);
+            }
+
+            .container .container_first_part, .container .container_second_part {
+                height: 50%;
+            }
+
+            .container .container_first_part {
+                width: 100%;
+            }
+
+            .container_first_text {
+                font-size: 3.7rem;
+            }
+
+            .container_second_text {
+                font-size: 1.2rem;
+            }
+
+            .container .container_second_part {
+                width: 100%;
+                padding: .3rem;
+            }
+
+            .container_form {
+                padding: 1.3rem;
+            }
+        }
+
+        @media screen and (min-width: 768px) and (max-width: 1199px) {
+            .container {
+                margin: 1.3rem;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            .container .container_first_part {
+                justify-content: center;
+            }
+
+            .container .container_first_part, .container .container_second_part {
+                height: 100%;
+            }
+
+            .container .container_second_part {
+                padding: 1.7rem;
+            }
+        }
+
+        @media screen and (min-width: 1440px) {
+            .container_form {
+                padding: 5rem;
+            }
+
+            .container .container_second_part {
+                padding: 5.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container_first_part">
+            <div class="container_first_text">
+                <span>ML and GenAI made simple</span>
+            </div>
+            <div class="container_second_text">
+                <span>Build better models and generative AI apps on a unified, end-to-end,
+                    open source MLOps platform...</span>
+            </div>
+        </div>
+        <div class="container_second_part">
+            <div class="container_form">
+                <div class="container_form_title">
+                    <span class="first_title">Login to your account</span>
+                </div>
+                <div class="separator"></div>
+                <div class="container_form_input">
+                    <div class="container_form_input_username">
+                        <label for="input_username">Username</label>
+                        <input type="text" id="input_username" placeholder="***">
+                    </div>
+                    <div class="container_form_input_password">
+                        <label for="input_password">Password</label>
+                        <input type="password" id="input_password" placeholder="***">
+                        <button class="icon_status_password" onclick="onShowPassword()">
+                            <svg id="svg1" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 16 16">
+                                <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7 7 0 0 0-2.79.588l.77.771A6 6 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755q-.247.248-.517.486z"/>
+                                <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829"/>
+                                <path d="M3.35 5.47q-.27.24-.518.487A13 13 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7 7 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12z"/>
+                            </svg>
+                            <svg id="svg2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="container_form_btn">
+                    <button type="submit" class="submit_btn">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script defer>
+        const onShowPassword = () => {
+            handleInputTypePassword();
+            handleSvgIcon();
+        }
+
+        const handleInputTypePassword = () => {
+            const inputPasswordElement = document.getElementById("input_password");
+
+            if (inputPasswordElement.type === "password") {
+                inputPasswordElement.type = "text";
+            } else {
+                inputPasswordElement.type = "password";
+            }
+        }
+
+        const handleSvgIcon = () => {
+            const svg1 = document.getElementById("svg1");
+            const svg2 = document.getElementById("svg2");
+
+            if (svg1.style.display === "none") {
+                svg1.style.display = "inline";
+                svg2.style.display = "none";
+            } else {
+                svg1.style.display = "none";
+                svg2.style.display = "inline";
+            }
+        }
+    </script>
+</body>
+</html>
